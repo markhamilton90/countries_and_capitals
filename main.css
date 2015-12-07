@@ -447,6 +447,97 @@ header > h1 {
   margin-bottom: .7rem;
 }
 
+table {
+  border: 1px solid black;
+  margin: 2rem auto 0;
+  display: block;
+  max-height: 25rem;
+  width: 50rem;
+  overflow-y: scroll;
+}
+
+tr:nth-child(even) {
+  background-color: #fff;
+}
+
+tr:nth-child(odd) {
+  background-color: #ecf0f1;
+}
+
+th {
+  background-color: #ddd;
+}
+
+td {
+  line-height: 2rem;
+}
+
+td, th {
+  border: 1px solid black;
+  border-bottom: none;
+  border-top: none;
+  padding: 0 15px 0 5px;
+  text-align: left;
+}
+
+li {
+  list-style-type: none;
+  line-height: 1.8rem;
+}
+
+a {
+  color: inherit;
+}
+
+input {
+  border: 2px solid black;
+  background-color: #fff;
+  text-align: center;
+  box-shadow: 2px 2px black;
+}
+
+.intro {
+  text-align: center;
+}
+
+.country-list {
+  text-align: center;
+}
+
+.country-list input {
+  margin-top: 2rem;
+}
+
+.country-info {
+  width: 25rem;
+  margin: 0 auto;
+}
+
+.country-info > h1 {
+  font-size: 3rem;
+}
+
+.country-info ul.titles,
+.country-info ul.data {
+  margin: 0;
+  padding: 0;
+  width: 49%;
+  list-style-type: none;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.country-info ul.titles {
+  text-align: right;
+}
+
+.country-info ul.data > li {
+  padding-left: 10px;
+}
+
+
+
+
 
 
 

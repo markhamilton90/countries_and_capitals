@@ -1,0 +1,20 @@
+
+<section class="country-info">
+	<h1>{{ country.countryName }}</h1>
+	<ul class="titles">
+		<li>Population of Country:</li>
+		<li>Area:</li>
+		<li>Capital:</li>
+		<li>Population of Capital:</li>
+		<li>3 neighbors:</li>
+	</ul>
+	<ul class="data">
+		<li>{{ country.population | number }}</li>
+		<li>9,147,000 km2</li>
+		<li>{{ country.name }}</li>
+		<li>632,323</li>
+		<li><a href="">Canada</a>, <a href="">Mexico</a></li>
+	</ul>
+	<input type="button" value="Home" ng-click="">
+	<input type="button" value="Browse Countries">
+</section>
