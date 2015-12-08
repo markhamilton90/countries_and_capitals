@@ -6,7 +6,7 @@
 		<th>Area in km2</th>
 		<th>Population</th>
 		<th>Continent</th>
-		<tr ng-repeat="country in countries.countriesData">
+		<tr ng-repeat="country in countriesData">
 			<td><a ng-href="#/countries/{{ country.countryCode }}">{{ country.countryName }}</a></td>
 			<td>{{ country.countryCode }}</td>
 			<td>{{ country.capital }}</td>

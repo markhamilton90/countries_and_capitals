@@ -1,10 +1,7 @@
 
 angular.module('countriesApp', ['ngRoute'])
 
-	.constant('BASE_URL', 'http://api.geonames.org/countryInfoJSON?')
-	.constant('BASE', 'http://api.geonames.org/')
-	.constant('ALL_COUNTRIES', 'countryInfoJSON?')
-	.constant('SINGLE_COUNTRY', 'searchJSON?country=')
+///  ROUTES
 
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider.when('/', {
@@ -13,23 +10,26 @@ angular.module('countriesApp', ['ngRoute'])
 		})
 		.when('/countries', {
 			templateUrl : 'countries.html',
-			controller : 'CountriesCtrl as countries',
+			controller : 'CountriesCtrl',
 			resolve : {
-				getInfo : function(getCountryInfo) {
-					var countriesData = getCountryInfo();
+				countriesData : function(countryServices) {
+					var countriesData = countryServices.getCountries();
 					return countriesData;
 				}
 			}
 		})
 		.when('/countries/:name', {
 			templateUrl : 'country.html',
-			controller : 'CountryCtrl as country',
+			controller : 'CountryCtrl',
 			resolve : {
-				getMoreInfo : function($route, getCountryDetails) {
+				countryData : function($route, countryServices) {
 					var name = $route.current.params.name;
-					console.log($route.current.params.name);
-					var moreDetails = getCountryDetails(name);
-					return moreDetails;
+					var getCapital = countryServices.getCapital(name);
+					var getCountries = countryServices.getCountries(name);
+					return {
+						getCapital : getCapital,
+						getCountries : getCountries
+					};
 				}
 			}
 		});
@@ -38,85 +38,86 @@ angular.module('countriesApp', ['ngRoute'])
 
 
 
-
-
-
-
-	.factory('getCountryInfo', ['$http', 'BASE_URL', function($http, BASE_URL) {
-		return function() {
-			var request = {
-				username: 'markhamilton90',
-				callback: 'JSON_CALLBACK'
-			}
-			return $http({
-				cache: true,
-				method: 'JSONP',
-				url: BASE_URL,
-				params: request
-			})
-			.then(function(response) {
-				console.log(response.data);
-				return response.data;
-			},
-			function() {
-				console.log('Failure...');
-			});
-		};
-	}])
-
-
-	.factory('getCountryDetails', ['$http', 'BASE', 'SINGLE_COUNTRY', function($http, BASE, SINGLE_COUNTRY) {
-		return function(name) {
-			var request = {
-				username: 'markhamilton90',
-				callback: 'JSON_CALLBACK',
-				maxRows: 1
-			}
-			return $http({
-				cache: true,
-				method: 'JSONP',
-				url: BASE + SINGLE_COUNTRY + name,
-				params: request
-			})
-			.then(function(response) {
-				console.log(response.data);
-				return response.data;
-			},
-			function() {
-				console.log('Failure...');
-			});
-		};
-	}])
-
-
-
-
-
-
-
+	/// CONTROLLERS
 
 
 	.controller('HomeCtrl', function($scope) {
 
 	})
-	.controller('CountriesCtrl', function($scope, getInfo) {
-		var vm = this;
-		console.log(getInfo);
-		vm.search; // will contain value for $scope variable clicked
-		vm.countriesData = getInfo.geonames;
+
+	.controller('CountriesCtrl', function($scope, countriesData) {
+		console.log(countriesData);
+		$scope.countriesData = countriesData.geonames;
+		// console.log($scope.countriesData); 
 		
 	})
-	.controller('CountryCtrl', function($scope, $routeParams, getMoreInfo) {
-		var vm = this;
-		var info = getMoreInfo.geonames[0];
-		console.log(info);
-		vm.name = info.countryName;
-		vm.population = info.population;
-		vm.area;
-		vm.capital = info.name;
-		vm.populationCapital = info.population;
 
-		// add a resolve to controller
+	.controller('CountryCtrl', function($scope, countryData) {
+		console.log(countryData);
+		var countryData = countryData.getCapital.geonames[0];
+		console.log(countryData);
+		$scope.countryName = countryData.countryName;
+		$scope.capital = countryData.adminName1;
+		$scope.capitalPop = countryData.population;
+		console.log(countryData.population);
+	})
+
+
+
+	/// SERVICES
+
+
+	// combining all http functions within one service
+	.factory('countryServices', function($http) {
+
+		return ({
+			getCountries : getCountries,
+			getCapital : getCapital
+		});
+
+		// get full list of countries
+		function getCountries(name) {
+			var request = {
+				username: 'markhamilton90',
+				callback: 'JSON_CALLBACK',
+				country: name || ''
+			}
+			return $http({
+				cache: true,
+				method: 'JSONP',
+				url: 'http://api.geonames.org/countryInfoJSON?',
+				params: request
+			})
+			.then(function(response) {
+				console.log(response.data);
+				return response.data;
+			},
+			function() {
+				console.log('Failure...');
+			});
+		}
+
+		// get select information for specific country's capital
+		function getCapital(name) {
+			var request = {
+				username: 'markhamilton90',
+				callback: 'JSON_CALLBACK',
+				country: name
+			}
+			return $http({
+				method: 'JSONP',
+				url: 'http://api.geonames.org/searchJSON?',
+				params: request
+			})
+			.then(function(response) {
+				console.log(response.data);
+				return response.data;
+			},
+			function() {
+				console.log('Failure...');
+			});
+		}
+
 	})
 
 
