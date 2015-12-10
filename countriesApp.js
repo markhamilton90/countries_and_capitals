@@ -24,12 +24,18 @@ angular.module('countriesApp', ['ngRoute'])
 			resolve : {
 				countryData : function($route, countryServices) {
 					var name = $route.current.params.name;
-					var getCapital = countryServices.getCapital(name);
 					var getCountries = countryServices.getCountries(name);
-					return {
-						getCapital : getCapital,
-						getCountries : getCountries
-					};
+					return getCountries;
+				},
+				capitalData : function($route, countryServices) {
+					var name = $route.current.params.name;
+					var getCapital = countryServices.getCapital(name);
+					return getCapital;
+				},
+				neighborsData : function($route, countryServices) {
+					var name = $route.current.params.name;
+					var getNeighbors = countryServices.getNeighbors(name);
+					return getNeighbors;
 				}
 			}
 		});
@@ -52,14 +58,19 @@ angular.module('countriesApp', ['ngRoute'])
 		
 	})
 
-	.controller('CountryCtrl', function($scope, countryData) {
-		console.log(countryData);
-		var countryData = countryData.getCapital.geonames[0];
-		console.log(countryData);
-		$scope.countryName = countryData.countryName;
-		$scope.capital = countryData.adminName1;
-		$scope.capitalPop = countryData.population;
-		console.log(countryData.population);
+	.controller('CountryCtrl', function($scope, countryData, capitalData, neighborsData) {
+		var countryData = countryData.geonames[0];
+		var capitalData = capitalData.geonames[0];
+		var neighborsData = neighborsData.geonames;
+		console.log(neighborsData);
+		$scope.neighbors = neighborsData;
+		$scope.country_name = countryData.countryName;
+		$scope.country_code = countryData.countryCode;
+		console.log($scope.country_code);
+		$scope.population = countryData.population
+		$scope.area = countryData.areaInSqKm;
+		$scope.capital = countryData.capital || 'Unavailable';
+		$scope.capital_population = capitalData.population;
 	})
 
 
@@ -70,10 +81,11 @@ angular.module('countriesApp', ['ngRoute'])
 	// combining all http functions within one service
 	.factory('countryServices', function($http) {
 
-		return ({
+		return {
 			getCountries : getCountries,
-			getCapital : getCapital
-		});
+			getCapital : getCapital,
+			getNeighbors : getNeighbors
+		};
 
 		// get full list of countries
 		function getCountries(name) {
@@ -89,7 +101,7 @@ angular.module('countriesApp', ['ngRoute'])
 				params: request
 			})
 			.then(function(response) {
-				console.log(response.data);
+				//console.log(response.data);
 				return response.data;
 			},
 			function() {
@@ -110,12 +122,31 @@ angular.module('countriesApp', ['ngRoute'])
 				params: request
 			})
 			.then(function(response) {
-				console.log(response.data);
+				//console.log(response.data);
 				return response.data;
 			},
 			function() {
 				console.log('Failure...');
 			});
+		}
+
+		function getNeighbors(name) {
+			var request = {
+				username: 'markhamilton90',
+				callback: 'JSON_CALLBACK',
+				country: name
+			}
+			return $http({
+				method: 'JSONP',
+				url: 'http://api.geonames.org/neighboursJSON?',
+				params: request
+			})
+			.then(function(response) {
+				return response.data;
+			},
+			function() {
+				console.log('Failure...');
+			})
 		}
 
 	})

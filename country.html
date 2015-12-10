@@ -1,20 +1,30 @@
 
 <section class="country-info">
-	<h1>{{ countryName }}</h1>
+	<h1>{{ country_name }}</h1>
 	<ul class="titles">
 		<li>Population of Country:</li>
 		<li>Area:</li>
 		<li>Capital:</li>
 		<li>Population of Capital:</li>
-		<li>3 neighbors:</li>
+		<li>{{ neighbors.length }} neighbors:</li>
 	</ul>
 	<ul class="data">
 		<li>{{ population | number }}</li>
-		<li>9,147,000 km2</li>
+		<li>{{ area | number }} sq. kilometers</li>
 		<li>{{ capital }}</li>
-		<li>{{ capitalPop }}</li>
-		<li><a href="">Canada</a>, <a href="">Mexico</a></li>
+		<li>{{ capital_population | number }}</li>
+		<li>
+			<div ng-repeat="neighbor in neighbors">
+				<a href="#/countries/{{ neighbor.countryCode }}">{{ neighbor.countryName }},</a>
+				&nbsp;
+			</div>
+			
+		</li>
 	</ul>
-	<input type="button" value="Home" ng-click="">
-	<input type="button" value="Browse Countries">
+	<img class="map" ng-src="http://www.geonames.org/img/country/250/{{ country_code }}.png" alt="">
+	<img class="flag" ng-src="http://www.geonames.org/flags/x/{{ country_code | lowercase }}.gif" alt="">
+	<div class="inputs">
+		<a href="/"><input type="button" value="Home" class="active"></a><!--
+	--><a href="/#/countries"><input type="button" value="Browse Countries"></a>
+	</div>
 </section>

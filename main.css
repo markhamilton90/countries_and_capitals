@@ -497,7 +497,15 @@ input {
 }
 
 .intro {
+  line-height: 2rem;
+  width: 35rem;
+  margin: 5rem auto 0;
   text-align: center;
+}
+
+.intro > p {
+  text-align: left;
+  margin-bottom: 2rem;
 }
 
 .country-list {
@@ -509,12 +517,13 @@ input {
 }
 
 .country-info {
-  width: 25rem;
+  width: 30rem;
   margin: 0 auto;
 }
 
 .country-info > h1 {
   font-size: 3rem;
+  padding-left: 2rem;
 }
 
 .country-info ul.titles,
@@ -533,6 +542,40 @@ input {
 
 .country-info ul.data > li {
   padding-left: 10px;
+}
+
+.country-info .inputs {
+  margin: 2rem auto 0;
+  width: 200.969px;
+}
+
+.data div {
+  width: auto;
+  display: inline-block;
+}
+
+.data a {
+  color: #757575;
+}
+
+.active {
+  background-color: #95BCF2;
+}
+
+.map, .flag {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 2rem 0 0 3rem;
+}
+
+.map {
+  width: 11rem;
+  height: 8.5rem;
+}
+
+.flag {
+  width: 9rem;
+  height: 6rem;
 }
 
 
