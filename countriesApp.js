@@ -51,6 +51,9 @@ angular.module('countriesApp', ['ngRoute', 'ngAnimate'])
 					return getNeighbors;
 				}
 			}
+		})
+		.otherwise({
+			redirectTo : '/'
 		});
 	}])
 
