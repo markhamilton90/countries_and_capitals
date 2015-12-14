@@ -464,6 +464,10 @@ tr:nth-child(odd) {
   background-color: #ecf0f1;
 }
 
+tr:hover {
+  background-color: #c2dcf2;
+}
+
 th {
   background-color: #ddd;
 }
@@ -578,6 +582,37 @@ input {
   height: 6rem;
 }
 
+
+
+.view-animate.ng-enter {
+  -webkit-transition: 0.5s linear all;
+  transition: 1s linear all;
+  position: relative;
+  left: -1em;
+  opacity: 0;
+}
+
+.view-animate.ng-enter.ng-enter-active {
+  left: 0;
+  opacity: 1;
+}
+
+.loading {
+  height: 100%;
+  position: relative;
+}
+
+.loading:before {
+  background: rgba(255, 255, 255, 1) no-repeat center center;
+  background-image: url('loading-animation.gif');
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  content: "";
+}
 
 
 

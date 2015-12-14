@@ -1,28 +1,27 @@
 
 <section class="country-info">
-	<h1>{{ country_name }}</h1>
+	<h1>{{ country.country_name }}</h1>
 	<ul class="titles">
 		<li>Population of Country:</li>
 		<li>Area:</li>
 		<li>Capital:</li>
 		<li>Population of Capital:</li>
-		<li>{{ neighbors.length }} neighbors:</li>
+		<li>{{ country.neighbors.length }} neighbors:</li>
 	</ul>
 	<ul class="data">
-		<li>{{ population | number }}</li>
-		<li>{{ area | number }} sq. kilometers</li>
-		<li>{{ capital }}</li>
-		<li>{{ capital_population | number }}</li>
+		<li>{{ country.population | number }}</li>
+		<li>{{ country.area | number }} sq. kilometers</li>
+		<li>{{ country.capital }}</li>
+		<li>{{ country.capital_population | number }}</li>
 		<li>
-			<div ng-repeat="neighbor in neighbors">
+			<div ng-repeat="neighbor in country.neighbors">
 				<a href="#/countries/{{ neighbor.countryCode }}">{{ neighbor.countryName }},</a>
 				&nbsp;
 			</div>
-			
 		</li>
 	</ul>
-	<img class="map" ng-src="http://www.geonames.org/img/country/250/{{ country_code }}.png" alt="">
-	<img class="flag" ng-src="http://www.geonames.org/flags/x/{{ country_code | lowercase }}.gif" alt="">
+	<img class="map" ng-src="http://www.geonames.org/img/country/250/{{ country.country_code }}.png" alt="">
+	<img class="flag" ng-src="http://www.geonames.org/flags/x/{{ country.country_code | lowercase }}.gif" alt="">
 	<div class="inputs">
 		<a href="/"><input type="button" value="Home" class="active"></a><!--
 	--><a href="/#/countries"><input type="button" value="Browse Countries"></a>

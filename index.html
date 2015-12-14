@@ -6,14 +6,14 @@
 	<link rel="stylesheet" href="main.css">
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/angular-route/angular-route.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.js"></script>
 	<script src="countriesApp.js"></script>
 </head>
-<body>
+<body ng-app="countriesApp">
 	<header>
 		<h1>Countries & Capitals</h1>
 	</header>
-	<section ng-app="countriesApp" ng-view>
-		
+	<section ng-view class="view-animate">	
 	</section>
 </body>
 </html>

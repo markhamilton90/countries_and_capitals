@@ -1,5 +1,18 @@
 
-angular.module('countriesApp', ['ngRoute'])
+angular.module('countriesApp', ['ngRoute', 'ngAnimate'])
+	.run(function($rootScope, $location, $timeout) {
+		$rootScope.$on('$routeChangeError', function() {
+			$location.path('/');
+		});
+		$rootScope.$on('$routeChangeStart', function() {
+			$rootScope.isLoading = true;
+		});
+		$rootScope.$on('$routeChangeSuccess', function() {
+			$timeout(function() {
+				$rootScope.isLoading = false;
+			}, 1000);
+		});
+	})
 
 ///  ROUTES
 
@@ -10,7 +23,7 @@ angular.module('countriesApp', ['ngRoute'])
 		})
 		.when('/countries', {
 			templateUrl : 'countries.html',
-			controller : 'CountriesCtrl',
+			controller : 'CountriesCtrl as countries',
 			resolve : {
 				countriesData : function(countryServices) {
 					var countriesData = countryServices.getCountries();
@@ -20,7 +33,7 @@ angular.module('countriesApp', ['ngRoute'])
 		})
 		.when('/countries/:name', {
 			templateUrl : 'country.html',
-			controller : 'CountryCtrl',
+			controller : 'CountryCtrl as country',
 			resolve : {
 				countryData : function($route, countryServices) {
 					var name = $route.current.params.name;
@@ -47,31 +60,33 @@ angular.module('countriesApp', ['ngRoute'])
 	/// CONTROLLERS
 
 
-	.controller('HomeCtrl', function($scope) {
+	.controller('HomeCtrl', function() {
 
 	})
 
-	.controller('CountriesCtrl', function($scope, countriesData) {
-		console.log(countriesData);
-		$scope.countriesData = countriesData.geonames;
+	.controller('CountriesCtrl', ['countriesData', function(countriesData) {
+		var vm = this;
+		vm.countriesData = countriesData.geonames;
 		// console.log($scope.countriesData); 
 		
-	})
+	}])
 
-	.controller('CountryCtrl', function($scope, countryData, capitalData, neighborsData) {
-		var countryData = countryData.geonames[0];
-		var capitalData = capitalData.geonames[0];
-		var neighborsData = neighborsData.geonames;
-		console.log(neighborsData);
-		$scope.neighbors = neighborsData;
-		$scope.country_name = countryData.countryName;
-		$scope.country_code = countryData.countryCode;
-		console.log($scope.country_code);
-		$scope.population = countryData.population
-		$scope.area = countryData.areaInSqKm;
-		$scope.capital = countryData.capital || 'Unavailable';
-		$scope.capital_population = capitalData.population;
-	})
+	.controller('CountryCtrl', ['countryData', 'capitalData', 'neighborsData',
+		function(countryData, capitalData, neighborsData) {
+			var countryData = countryData.geonames[0];
+			var capitalData = capitalData.geonames[0];
+			var neighborsData = neighborsData.geonames;
+
+			var vm = this;
+			vm.neighbors = neighborsData;
+			vm.country_name = countryData.countryName;
+			vm.country_code = countryData.countryCode;
+			vm.population = countryData.population
+			vm.area = countryData.areaInSqKm;
+			vm.capital = countryData.capital || 'Unavailable';
+			vm.capital_population = capitalData.population;
+			console.log(vm);
+	}])
 
 
 
@@ -79,7 +94,7 @@ angular.module('countriesApp', ['ngRoute'])
 
 
 	// combining all http functions within one service
-	.factory('countryServices', function($http) {
+	.factory('countryServices', ['$http', function($http) {
 
 		return {
 			getCountries : getCountries,
@@ -149,7 +164,7 @@ angular.module('countriesApp', ['ngRoute'])
 			})
 		}
 
-	})
+	}]);
 
 
 
