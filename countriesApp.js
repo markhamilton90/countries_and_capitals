@@ -8,9 +8,7 @@ angular.module('countriesApp', ['ngRoute', 'ngAnimate'])
 			$rootScope.isLoading = true;
 		});
 		$rootScope.$on('$routeChangeSuccess', function() {
-			$timeout(function() {
-				$rootScope.isLoading = false;
-			}, 1000);
+			$rootScope.isLoading = false;
 		});
 	})
 
