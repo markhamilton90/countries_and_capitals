@@ -3,11 +3,16 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Countries & Capitals</title>
-	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="components/main.css">
+	<!-- build:js ./_assets.combined.js -->
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/angular-route/angular-route.js"></script>
 	<script src="bower_components/angular-animate/angular-animate.js"></script>
 	<script src="countriesApp.js"></script>
+	<script src="countries/countriesController.js"></script>
+	<script src="countries/countryController.js"></script>
+	<script src="services.js"></script>
+	<!-- endbuild -->
 </head>
 <body ng-app="countriesApp">
 	<header>

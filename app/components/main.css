@@ -604,7 +604,7 @@ input {
 
 .loading:before {
   background: rgba(255, 255, 255, 1) no-repeat center center;
-  background-image: url('loading-animation.gif');
+  background-image: url('../loading-animation.gif');
   position: absolute;
   top: 0;
   left: 0;
